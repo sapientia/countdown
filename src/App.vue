@@ -1,23 +1,24 @@
 <script setup>
 import CountdownHeader from "@/components/CountdownHeader.vue";
 import CountdownSegment from "@/components/CountdownSegment.vue";
-import { shallowRef, onMounted } from "vue";
+import { shallowRef, onMounted, onUnmounted } from "vue";
 
 let days = shallowRef(0)
 let hours = shallowRef(0)
 let minutes = shallowRef(0)
 let seconds = shallowRef(0)
 
-const millisecondsInSecond = 1000;
-const millisecondsInMinute = millisecondsInSecond * 60;
-const millisecondsInHour = millisecondsInMinute * 60;
-const millisecondsInDay = millisecondsInHour * 24;
-
 // Convert date based on given day
 const date = shallowRef('01/01/2025')
 const [day, month, year] = date.value.split('/');
 const dateObject = new Date(`${year}-${month}-${day}`);
 
+
+//Get Miliseconds per Minute, Hour and Day
+const millisecondsInSecond = 1000;
+const millisecondsInMinute = millisecondsInSecond * 60;
+const millisecondsInHour = millisecondsInMinute * 60;
+const millisecondsInDay = millisecondsInHour * 24;
 
 const calculateTimeRemaining = () => {
   //Get current Day
@@ -39,6 +40,7 @@ onMounted(() => {
   setInterval(calculateTimeRemaining, 1000); // Update every second
 });
 
+onUnmounted(() => clearInterval());
 
 </script>
 <template>
